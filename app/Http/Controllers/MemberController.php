@@ -11,10 +11,49 @@ use App\Models\Exercise;
 use App\Models\Nutrition;
 use App\Models\Program;
 use App\Models\UserMetric;
-
+use App\Models\Product;
+use App\Models\Transaction;
+use App\Models\TransactionItem; 
 class MemberController extends Controller
 {
+    public function shop(): View
+    {
+        $products = Product::where('stock', '>', 0)->get();
+        // Fetch user's transaction history
+        $transactions = Auth::user()->transactions()->latest()->get();
+        return view('member.shop.index', compact('products', 'transactions'));
+    }
 
+    /**
+     * Handle "Buy Now" -> Redirect to Payment
+     */
+    public function purchase(Request $request, Product $product): RedirectResponse
+    {
+        // 1. Check stock availability
+        if ($product->stock < 1) {
+            return redirect()->back()->with('error', 'Sorry, this item is out of stock.');
+        }
+
+        // 2. Create Transaction (Status: PENDING)
+        $transaction = Transaction::create([
+            'user_id' => Auth::id(),
+            'total_amount' => $product->price,
+            'status' => 'pending', // <--- Changed from 'completed'
+        ]);
+
+        // 3. Create Transaction Item
+        TransactionItem::create([
+            'transaction_id' => $transaction->id,
+            'product_id' => $product->id,
+            'quantity' => 1,
+            'price' => $product->price,
+        ]);
+
+        // Note: We do NOT decrement stock yet. Stock is decremented upon payment success.
+
+        // 4. Redirect to the Dummy Payment Gateway
+        return redirect()->route('payment.show', $transaction);
+    }
     public function science(): View
     {
         // Only show published articles

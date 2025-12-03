@@ -33,6 +33,10 @@
                         <x-nav-link :href="route('member.tools')" :active="request()->routeIs('member.tools*')" class="text-gray-300 hover:text-green-400">
                             {{ __('Tools') }}
                         </x-nav-link>
+                        {{-- Added Shop Link --}}
+                        <x-nav-link :href="route('member.shop')" :active="request()->routeIs('member.shop*')" class="text-gray-300 hover:text-green-400">
+                            {{ __('Shop') }}
+                        </x-nav-link>
                     @endif
                 </div>
             </div>
@@ -113,6 +117,10 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('member.tools')" :active="request()->routeIs('member.tools*')" class="text-gray-300">
                     {{ __('Tools') }}
+                </x-responsive-nav-link>
+                {{-- Added Responsive Shop Link --}}
+                <x-responsive-nav-link :href="route('member.shop')" :active="request()->routeIs('member.shop*')" class="text-gray-300">
+                    {{ __('Shop') }}
                 </x-responsive-nav-link>
             @endif
         </div>

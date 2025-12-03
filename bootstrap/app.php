@@ -14,6 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
          $middleware->web(append: [
             \App\Http\Middleware\SetLocale::class,
         ]);
+         $middleware->validateCsrfTokens(except: [
+            'payment/notify', // We will update the route name below
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

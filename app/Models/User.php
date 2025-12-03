@@ -52,6 +52,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserMetric::class);
     }
+    public function transactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class);
+    }
 
     public function isAdmin(): bool
     {

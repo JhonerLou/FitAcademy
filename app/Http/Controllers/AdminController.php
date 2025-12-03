@@ -11,7 +11,9 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\Rule;
-
+use App\Models\Product;
+use App\Models\Transaction;
+use App\Models\TransactionItem;
 class AdminController extends Controller
 {
     /**
@@ -25,17 +27,92 @@ class AdminController extends Controller
             'nutrition_items' => Nutrition::count(),
             'programs' => Program::count(),
             'articles' => ScienceArticle::count(),
+            'products' => Product::count(),
+            'orders' => Transaction::count(),
         ];
 
-        $recentExercises = Exercise::latest()->take(5)->get();
         $recentUsers = User::latest()->take(5)->get();
+        $recentOrders = Transaction::with('user')->latest()->take(5)->get();
 
-        return view('admin.dashboard', compact('stats', 'recentExercises', 'recentUsers'));
+
+        return view('admin.dashboard', compact('stats', 'recentOrders', 'recentUsers'));
+    }
+       public function transactions(): View
+    {
+        // Eager load 'user' and 'items' to avoid N+1 query problems
+        $transactions = Transaction::with(['user', 'items.product'])->latest()->paginate(10);
+        return view('admin.transactions.index', compact('transactions'));
     }
 
-    // ==========================================
-    // EXERCISE MANAGEMENT
-    // ==========================================
+    public function showTransaction(Transaction $transaction): View
+    {
+        $transaction->load(['user', 'items.product']);
+        return view('admin.transactions.show', compact('transaction'));
+    }
+
+    public function updateTransactionStatus(Request $request, Transaction $transaction): RedirectResponse
+    {
+        $request->validate([
+            'status' => 'required|in:pending,completed,cancelled'
+        ]);
+
+        $transaction->update(['status' => $request->status]);
+
+
+        return redirect()->back()->with('success', 'Order status updated to ' . ucfirst($request->status));
+    }
+    public function products(): View
+    {
+        $products = Product::latest()->paginate(10);
+        return view('admin.products.index', compact('products'));
+    }
+
+    public function createProduct(): View
+    {
+        return view('admin.products.create');
+    }
+
+    public function storeProduct(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'category' => ['required', Rule::in(['Supplements', 'Equipment', 'Machines', 'Clothing', 'Accessories'])],
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'image_path' => 'nullable|url',
+        ]);
+
+        Product::create($validated);
+        return redirect()->route('admin.products')->with('success', 'Product created successfully!');
+    }
+
+    public function editProduct(Product $product): View
+    {
+        return view('admin.products.edit', compact('product'));
+    }
+
+    public function updateProduct(Request $request, Product $product): RedirectResponse
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'category' => ['required', Rule::in(['Supplements', 'Equipment', 'Machines', 'Clothing', 'Accessories'])],
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'image_path' => 'nullable|url',
+        ]);
+
+        $product->update($validated);
+        return redirect()->route('admin.products')->with('success', 'Product updated successfully!');
+    }
+
+    public function destroyProduct(Product $product): RedirectResponse
+    {
+        $product->delete();
+        return redirect()->route('admin.products')->with('success', 'Product deleted successfully!');
+    }
+
 
     public function exercises(): View
     {
@@ -91,9 +168,7 @@ class AdminController extends Controller
         return redirect()->route('admin.exercises')->with('success', 'Exercise deleted successfully!');
     }
 
-    // ==========================================
-    // SCIENCE ARTICLE MANAGEMENT
-    // ==========================================
+
 
     public function articles(): View
     {
@@ -149,9 +224,7 @@ class AdminController extends Controller
         return redirect()->route('admin.articles')->with('success', 'Article deleted successfully!');
     }
 
-    // ==========================================
-    // NUTRITION MANAGEMENT
-    // ==========================================
+
 
     public function nutrition(): View
     {
@@ -203,9 +276,6 @@ class AdminController extends Controller
         return redirect()->route('admin.nutrition')->with('success', 'Nutrition item deleted successfully!');
     }
 
-    // ==========================================
-    // PROGRAM MANAGEMENT
-    // ==========================================
 
     public function programs(): View
     {
@@ -225,11 +295,9 @@ class AdminController extends Controller
             'description' => 'required|string',
             'difficulty' => ['required', Rule::in(['Beginner', 'Intermediate', 'Advanced'])],
             'days_per_week' => 'required|integer|min:1|max:7',
-            'routine_details' => 'required', // Expecting JSON string or array depending on frontend
+            'routine_details' => 'required',
         ]);
 
-        // If your frontend sends a raw JSON string, we just save it.
-        // If it sends an array, we might need json_encode($validated['routine_details']);
 
         Program::create($validated);
         return redirect()->route('admin.programs')->with('success', 'Program created successfully!');

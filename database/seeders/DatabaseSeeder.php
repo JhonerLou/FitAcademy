@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
        $this->call([
-        UserSeeder::class,ScienceArticleSeeder::class,NutritionSeeder::class,ExerciseSeeder::class,ProgramSeeder::class
+        UserSeeder::class,ScienceArticleSeeder::class,NutritionSeeder::class,ExerciseSeeder::class,ProgramSeeder::class,ProductSeeder::class    
     ]);
     }
 }
