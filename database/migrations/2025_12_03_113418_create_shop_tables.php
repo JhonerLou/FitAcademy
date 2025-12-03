@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-
-            $table->enum('category', ['Supplements', 'Equipment', 'Machines', 'Clothing', 'Accessories']);
+            $table->enum('category', ['Supplements', 'Equipment', 'Machines', 'Clothing', 'Accessories', 'Program']);
             $table->decimal('price', 10, 2);
             $table->integer('stock')->default(0);
             $table->string('image_path')->nullable();

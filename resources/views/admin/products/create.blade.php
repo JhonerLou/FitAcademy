@@ -15,11 +15,12 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div>
                             <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Product Name</label>
-                            <input type="text" name="name" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:ring-green-500 focus:border-green-500 p-2.5" placeholder="e.g. Creatine Monohydrate" required>
+                            <input type="text" name="name" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:ring-green-500 focus:border-green-500 p-2.5" required>
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Category</label>
                             <select name="category" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:ring-green-500 focus:border-green-500 p-2.5">
+                                <option value="Program">Program (Course/Module)</option>
                                 <option value="Supplements">Supplements</option>
                                 <option value="Equipment">Equipment</option>
                                 <option value="Machines">Machines</option>
@@ -31,21 +32,21 @@
 
                     <div>
                         <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Description</label>
-                        <textarea name="description" rows="4" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:ring-green-500 focus:border-green-500 p-2.5" placeholder="Detailed product description..." required></textarea>
+                        <textarea name="description" rows="4" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:ring-green-500 focus:border-green-500 p-2.5" required></textarea>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
                             <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Price (IDR)</label>
-                            <input type="number" name="price" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:ring-green-500 focus:border-green-500 p-2.5" placeholder="150000" required>
+                            <input type="number" name="price" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:ring-green-500 focus:border-green-500 p-2.5" required>
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Stock Quantity</label>
-                            <input type="number" name="stock" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:ring-green-500 focus:border-green-500 p-2.5" placeholder="50" required>
+                            <input type="number" name="stock" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:ring-green-500 focus:border-green-500 p-2.5" required>
                         </div>
                         <div>
                             <label class="block text-sm font-bold text-gray-700 dark:text-gray-300 mb-2">Image URL</label>
-                            <input type="url" name="image_path" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:ring-green-500 focus:border-green-500 p-2.5" placeholder="https://placehold.co/...">
+                            <input type="url" name="image_path" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:ring-green-500 focus:border-green-500 p-2.5" placeholder="[https://placehold.co/](https://placehold.co/)...">
                         </div>
                     </div>
 

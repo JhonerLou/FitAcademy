@@ -37,7 +37,7 @@ class AdminController extends Controller
     }
        public function transactions(): View
     {
-      
+
         $transactions = Transaction::with(['user', 'items.product'])->latest()->paginate(10);
         return view('admin.transactions.index', compact('transactions'));
     }
@@ -75,7 +75,7 @@ class AdminController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'category' => ['required', Rule::in(['Supplements', 'Equipment', 'Machines', 'Clothing', 'Accessories'])],
+            'category' => ['required', Rule::in(['Supplements', 'Equipment', 'Machines', 'Clothing', 'Accessories', 'Program'])],
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'image_path' => 'nullable|url',
@@ -95,7 +95,7 @@ class AdminController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
-            'category' => ['required', Rule::in(['Supplements', 'Equipment', 'Machines', 'Clothing', 'Accessories'])],
+            'category' => ['required', Rule::in(['Supplements', 'Equipment', 'Machines', 'Clothing', 'Accessories', 'Program'])],
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
             'image_path' => 'nullable|url',
