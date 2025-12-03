@@ -12,8 +12,7 @@ class ProgramSeeder extends Seeder
      */
     public function run(): void
     {
-        // Program 1: Beginner Foundation
-        // Based on the "Foundation Block" concepts from the uploaded PDF
+
         Program::create([
             'name' => 'Beginner Bodybuilding Foundation',
             'description' => 'A 5-day split designed to build a solid base of strength and hypertrophy. Focuses on mastering technique with "Foundation Sets" before increasing volume. Uses an Upper/Lower + PPL Hybrid split.',
@@ -88,8 +87,7 @@ class ProgramSeeder extends Seeder
             ]),
         ]);
 
-        // Program 2: Intermediate/Advanced Ramping
-        // Based on the "Ramping Block" concepts, higher volume
+
         Program::create([
             'name' => 'Intermediate Hypertrophy Ramping',
             'description' => 'A high-volume program designed for experienced lifters. Utilizes "Ramping" volume where sets increase week-over-week. Focuses on weak point training and metabolic stress.',

@@ -41,7 +41,7 @@ class ExerciseSeeder extends Seeder
                 'image_path' => 'https://placehold.co/600x400/10b981/ffffff?text=Pec+Deck',
             ],
 
-            // --- BACK ---
+     
             [
                 'name' => 'Neutral-Grip Lat Pulldown',
                 'muscle_group' => 'Back',
@@ -70,7 +70,7 @@ class ExerciseSeeder extends Seeder
                 'image_path' => 'https://placehold.co/600x400/3b82f6/ffffff?text=Machine+Row',
             ],
 
-            // --- SHOULDERS ---
+
             [
                 'name' => 'High-Cable Lateral Raise',
                 'muscle_group' => 'Shoulders',
@@ -99,7 +99,7 @@ class ExerciseSeeder extends Seeder
                 'image_path' => 'https://placehold.co/600x400/f59e0b/ffffff?text=Rear+Delt+Fly',
             ],
 
-            // --- ARMS ---
+
             [
                 'name' => 'Bayesian Cable Curl',
                 'muscle_group' => 'Biceps',
@@ -137,7 +137,7 @@ class ExerciseSeeder extends Seeder
                 'image_path' => 'https://placehold.co/600x400/ef4444/ffffff?text=Pressdown',
             ],
 
-            // --- LEGS ---
+
             [
                 'name' => 'Smith Machine Squat',
                 'muscle_group' => 'Quadriceps',
@@ -184,7 +184,7 @@ class ExerciseSeeder extends Seeder
                 'image_path' => 'https://placehold.co/600x400/8b5cf6/ffffff?text=Calf+Raise',
             ],
 
-            // --- CORE ---
+
             [
                 'name' => 'Cable Crunch',
                 'muscle_group' => 'Abs',

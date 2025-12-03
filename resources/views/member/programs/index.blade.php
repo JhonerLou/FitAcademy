@@ -11,7 +11,7 @@
                 @forelse($programs as $program)
                 <div class="bg-gray-800 rounded-3xl p-8 border border-gray-700 hover:border-green-500 transition duration-300 flex flex-col h-full relative overflow-hidden group">
 
-                    <!-- Background Glow -->
+
                     <div class="absolute -right-10 -top-10 w-40 h-40 bg-gradient-to-br from-green-500/20 to-blue-500/20 rounded-full blur-3xl group-hover:bg-green-500/30 transition"></div>
 
                     <div class="relative z-10 flex-grow">

@@ -13,7 +13,7 @@ class NutritionSeeder extends Seeder
     public function run(): void
     {
         $items = [
-            // --- SUPPLEMENTS ---
+
             [
                 'name' => 'Whey Protein Isolate',
                 'category' => 'Supplement',

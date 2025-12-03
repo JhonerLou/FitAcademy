@@ -8,7 +8,7 @@
                     <h1 class="text-4xl font-black text-white">Exercise <span class="text-gray-600">Library</span></h1>
                 </div>
 
-                <!-- Muscle Group Filter -->
+
                 <div class="mt-6 md:mt-0 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto">
                     <div class="flex space-x-2">
                         <a href="{{ route('member.exercises') }}" class="px-4 py-2 rounded-full text-sm font-bold transition {{ !request('muscle') ? 'bg-green-500 text-black' : 'bg-gray-800 text-gray-400 hover:bg-gray-700' }}">
@@ -23,12 +23,12 @@
                 </div>
             </div>
 
-            <!-- Exercises Grid -->
+
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 {{-- Loop through exercises --}}
                 @forelse($exercises as $exercise)
                 <div class="bg-gray-800 rounded-xl overflow-hidden border border-gray-700 hover:border-green-500 transition group">
-                    <!-- Image/Video Area -->
+
                     <div class="relative h-48 bg-gray-900 overflow-hidden">
                         @if($exercise->image_path)
                             <img src="{{ $exercise->image_path }}" alt="{{ $exercise->name }}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition duration-500">
@@ -45,12 +45,10 @@
                         <div class="text-xs font-bold text-green-400 uppercase tracking-wider mb-1">{{ $exercise->muscle_group }}</div>
                         <h3 class="text-lg font-bold text-white mb-2 leading-tight">{{ $exercise->name }}</h3>
 
-                        <!-- Description -->
                         <p class="text-sm text-gray-400 line-clamp-2" title="{{ $exercise->instructions }}">
                             {{ $exercise->instructions }}
                         </p>
 
-                        <!-- Video Link -->
                         @if($exercise->video_url)
                         <a href="{{ $exercise->video_url }}" target="_blank" class="mt-4 block w-full py-2 bg-gray-700 hover:bg-green-500 hover:text-black text-center rounded text-sm font-bold text-white transition">
                             Watch Demo
@@ -65,7 +63,7 @@
                 @endforelse
             </div>
 
-            <!-- Pagination -->
+   
             <div class="mt-12">
                 {{ $exercises->appends(request()->query())->links() }}
             </div>

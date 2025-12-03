@@ -15,7 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\SetLocale::class,
         ]);
          $middleware->validateCsrfTokens(except: [
-            'payment/notify', // We will update the route name below
+            'payment/notify', 
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

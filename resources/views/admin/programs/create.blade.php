@@ -13,12 +13,12 @@
                     @csrf
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Name -->
+                  
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Program Name</label>
                             <input type="text" name="name" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:ring-green-500 focus:border-green-500" placeholder="e.g. 12-Week Hypertrophy" required>
                         </div>
-                        <!-- Difficulty -->
+
                         <div>
                             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Difficulty</label>
                             <select name="difficulty" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:ring-green-500 focus:border-green-500">
@@ -29,26 +29,24 @@
                         </div>
                     </div>
 
-                    <!-- Description -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Description</label>
                         <textarea name="description" rows="3" class="w-full bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:ring-green-500 focus:border-green-500" placeholder="Brief overview of the program goals..." required></textarea>
                     </div>
 
-                    <!-- Days Per Week -->
+
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Days Per Week</label>
                         <input type="number" name="days_per_week" class="w-24 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg text-gray-900 dark:text-white focus:ring-green-500 focus:border-green-500" min="1" max="7" required>
                     </div>
 
-                    <!-- Routine Details (JSON) -->
+
                     <div>
                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                             Routine Details (JSON Format)
                             <span class="text-xs text-gray-500 font-normal ml-2">- Copy the template below and modify it</span>
                         </label>
 
-                        <!-- JSON Template Helper -->
                         <div class="relative bg-gray-900 rounded-lg border border-gray-700 mb-3 group">
                             <pre class="text-xs text-green-400 p-4 overflow-x-auto font-mono leading-relaxed">
 {
@@ -85,7 +83,7 @@
     }
   ]
 }</pre>
-                            <!-- Copy Button hint -->
+
                             <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition">
                                 <span class="text-xs text-gray-500 bg-black/50 px-2 py-1 rounded">Select & Copy</span>
                             </div>

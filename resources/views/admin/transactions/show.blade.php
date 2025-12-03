@@ -16,7 +16,7 @@
 
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-8">
 
-                <!-- Info Grid -->
+         
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 border-b border-gray-200 dark:border-gray-700 pb-8">
                     <div>
                         <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">Customer Info</h3>
@@ -34,7 +34,6 @@
                             {{ $transaction->status }}
                         </span>
 
-                        <!-- Manual Status Update Form -->
                         <form action="{{ route('admin.transactions.update', $transaction) }}" method="POST" class="mt-6 flex justify-end items-center gap-2">
                             @csrf
                             @method('PATCH')
@@ -50,7 +49,7 @@
                     </div>
                 </div>
 
-                <!-- Items -->
+
                 <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">Order Items</h3>
                 <div class="bg-gray-50 dark:bg-gray-900 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
                     <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -71,7 +70,7 @@
                                 <td class="px-6 py-4 text-right font-mono font-bold">Rp {{ number_format($item->price * $item->quantity, 0, ',', '.') }}</td>
                             </tr>
                             @endforeach
-                            <!-- Total Row -->
+
                             <tr class="bg-gray-100 dark:bg-gray-800 font-bold">
                                 <td colspan="3" class="px-6 py-4 text-right uppercase">Grand Total</td>
                                 <td class="px-6 py-4 text-right font-mono text-lg text-green-500">Rp {{ number_format($transaction->total_amount, 0, ',', '.') }}</td>

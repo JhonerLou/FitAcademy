@@ -16,9 +16,7 @@ use App\Models\Transaction;
 use App\Models\TransactionItem;
 class AdminController extends Controller
 {
-    /**
-     * Display the admin dashboard.
-     */
+
     public function index(): View
     {
         $stats = [
@@ -39,7 +37,7 @@ class AdminController extends Controller
     }
        public function transactions(): View
     {
-        // Eager load 'user' and 'items' to avoid N+1 query problems
+      
         $transactions = Transaction::with(['user', 'items.product'])->latest()->paginate(10);
         return view('admin.transactions.index', compact('transactions'));
     }

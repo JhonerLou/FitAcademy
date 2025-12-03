@@ -25,7 +25,6 @@ class UserMetric extends Model
         'recorded_at' => 'date',
     ];
 
-    // Relationship: A metric record belongs to one User
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

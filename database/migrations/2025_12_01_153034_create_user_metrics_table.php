@@ -15,8 +15,8 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->integer('age');
             $table->enum('gender', ['male', 'female']);
-            $table->float('height'); // cm
-            $table->float('weight'); // kg
+            $table->float('height');
+            $table->float('weight'); 
             $table->float('bmi_result');
             $table->float('tdee_result');
             $table->string('activity_level');

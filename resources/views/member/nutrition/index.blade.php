@@ -7,7 +7,6 @@
                 <h1 class="text-4xl md:text-5xl font-black text-white">Nutrition & <span class="text-gray-600">Supplements</span></h1>
             </div>
 
-            <!-- Section 1: Supplements -->
             <div class="mb-30">
                 <div class="flex items-center mb-8">
                     <div class="w-1 h-8 bg-green-500 mr-4 rounded-full"></div>
@@ -17,7 +16,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
                     @forelse($supplements as $item)
                     <div class="bg-gray-800 rounded-2xl p-8 border border-gray-700 hover:border-green-500/50 transition duration-300 relative overflow-hidden group">
-                        <!-- Decorative bg -->
+
                         <div class="absolute top-0 right-0 w-32 h-32 bg-green-500/5 rounded-full blur-3xl group-hover:bg-green-500/10 transition"></div>
 
                         <div class="relative z-10">
@@ -52,7 +51,7 @@
                 </div>
             </div>
 
-            <!-- Section 2: Food Sources -->
+
             <div>
                 <div class="flex items-center mb-8 mt-20">
                     <div class="w-1 h-8 bg-blue-500 mr-4 rounded-full"></div>

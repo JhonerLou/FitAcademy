@@ -9,7 +9,6 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-                <!-- Calculator Form -->
                 <div class="lg:col-span-2 bg-gray-800 rounded-2xl p-8 border border-gray-700">
                     <h3 class="text-xl font-bold text-white mb-6 flex items-center">
                         <span class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-black mr-3 text-sm">1</span>
@@ -33,24 +32,24 @@
                                     <option value="female">Female</option>
                                 </select>
                             </div>
-                            <!-- Age -->
+
                             <div>
                                 <label class="block text-sm font-medium text-gray-400 mb-2">Age</label>
                                 <input type="number" name="age" class="w-full bg-gray-900 border border-gray-700 rounded-lg text-white focus:ring-green-500 focus:border-green-500" placeholder="Years">
                             </div>
-                            <!-- Height -->
+
                             <div>
                                 <label class="block text-sm font-medium text-gray-400 mb-2">Height (cm)</label>
                                 <input type="number" name="height" class="w-full bg-gray-900 border border-gray-700 rounded-lg text-white focus:ring-green-500 focus:border-green-500" placeholder="cm">
                             </div>
-                            <!-- Weight -->
+
                             <div>
                                 <label class="block text-sm font-medium text-gray-400 mb-2">Weight (kg)</label>
                                 <input type="number" name="weight" class="w-full bg-gray-900 border border-gray-700 rounded-lg text-white focus:ring-green-500 focus:border-green-500" placeholder="kg">
                             </div>
                         </div>
 
-                        <!-- Activity Level -->
+
                         <div>
                             <label class="block text-sm font-medium text-gray-400 mb-2">Activity Level</label>
                             <select name="activity_level" class="w-full bg-gray-900 border border-gray-700 rounded-lg text-white focus:ring-green-500 focus:border-green-500">
@@ -68,10 +67,8 @@
                     </form>
                 </div>
 
-                <!-- Results & History -->
                 <div class="space-y-8">
 
-                    <!-- Current Result Card -->
                     <div class="bg-gray-800 rounded-2xl p-8 border border-gray-700 relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-green-500/10 rounded-full blur-3xl"></div>
 
@@ -108,7 +105,6 @@
                         @endif
                     </div>
 
-                    <!-- History List -->
                     <div class="bg-gray-800 rounded-2xl p-6 border border-gray-700">
                         <h3 class="text-sm font-bold text-white mb-4 uppercase tracking-widest text-gray-400">Recent History</h3>
                         <div class="space-y-3">

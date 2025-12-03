@@ -16,12 +16,11 @@ class UserSeeder extends Seeder
         User::create([
             'name' => 'Admin FitAcademy',
             'email' => 'admin@fitacademy.com',
-            'password' => Hash::make('password'), // Change this for production!
+            'password' => Hash::make('password'),
             'role' => 'admin',
             'email_verified_at' => now(),
         ]);
 
-        // 2. Create a specific Test Member
         User::create([
             'name' => 'Stevie pilat',
             'email' => 'stevie@gmail.com',
@@ -30,7 +29,6 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
 
-        // 3. Create 10 Random Members (for testing lists/pagination)
         User::factory(10)->create([
             'role' => 'member',
         ]);

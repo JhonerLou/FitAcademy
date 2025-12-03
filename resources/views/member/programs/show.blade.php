@@ -17,13 +17,13 @@
                 <p class="text-gray-400 mt-4 text-lg max-w-3xl">{{ $program->description }}</p>
             </div>
 
-            <!-- Routine Details -->
+
             <div class="space-y-8">
                 @if(isset($routine['weekly_schedule']) && is_array($routine['weekly_schedule']))
 
                     @foreach($routine['weekly_schedule'] as $day)
                         <div class="bg-gray-800 rounded-2xl border border-gray-700 overflow-hidden">
-                            <!-- Day Header -->
+
                             <div class="px-6 py-4 bg-gray-900/50 border-b border-gray-700 flex justify-between items-center">
                                 <h3 class="text-xl font-bold text-white">{{ $day['day'] }}</h3>
                                 <span class="text-sm font-medium {{ $day['workout_name'] == 'Rest' ? 'text-gray-500' : 'text-green-400' }}">
@@ -31,7 +31,7 @@
                                 </span>
                             </div>
 
-                            <!-- Exercises Table -->
+                            
                             @if(!empty($day['exercises']))
                                 <div class="overflow-x-auto">
                                     <table class="w-full text-left text-sm text-gray-400">

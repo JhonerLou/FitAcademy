@@ -8,7 +8,6 @@
     <div class="py-12 bg-gray-900 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            <!-- Welcome Section -->
             <div class="mb-8">
                 <h1 class="text-3xl font-black text-white">
                     Welcome back, <span class="text-green-400">{{ Auth::user()->name }}</span>!
@@ -18,10 +17,9 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-                <!-- Left Column: Metrics -->
                 <div class="lg:col-span-2 space-y-8">
 
-                    <!-- Stats Card -->
+
                     <div class="bg-gray-800 rounded-2xl p-8 border border-gray-700 relative overflow-hidden">
                         <div class="absolute top-0 right-0 w-48 h-48 bg-green-500/10 rounded-full blur-3xl"></div>
 
@@ -59,9 +57,9 @@
                         @endif
                     </div>
 
-                    <!-- Quick Navigation -->
+
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Programs Link -->
+
                         <a href="{{ route('member.programs') }}" class="block p-6 bg-gray-800 border border-gray-700 rounded-xl hover:border-green-500 transition group">
                             <div class="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition">
                                 <svg class="w-6 h-6 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
@@ -70,7 +68,7 @@
                             <p class="text-sm text-gray-400">Find a routine that fits your goals.</p>
                         </a>
 
-                        <!-- Library Link -->
+
                         <a href="{{ route('member.exercises') }}" class="block p-6 bg-gray-800 border border-gray-700 rounded-xl hover:border-green-500 transition group">
                             <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition">
                                 <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
@@ -81,10 +79,9 @@
                     </div>
                 </div>
 
-                <!-- Right Column: Quick Tips / Status -->
                 <div class="space-y-8">
 
-                    <!-- Nutrition Quick Link -->
+
                     <div class="bg-gray-800 rounded-2xl p-6 border border-gray-700">
                         <div class="flex items-start justify-between mb-4">
                             <div>
@@ -98,7 +95,6 @@
                         <a href="{{ route('member.nutrition') }}" class="block w-full py-2 bg-gray-700 hover:bg-gray-600 text-center rounded text-sm font-bold text-white transition">View Guide</a>
                     </div>
 
-                    <!-- Science Quick Link -->
                     <div class="bg-gray-800 rounded-2xl p-6 border border-gray-700">
                         <div class="flex items-start justify-between mb-4">
                             <div>

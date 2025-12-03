@@ -2,7 +2,7 @@
     <div class="bg-gray-900 min-h-screen py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            <!-- Header -->
+     
             <div class="text-center mb-16">
                 <h2 class="text-green-400 font-bold tracking-widest uppercase text-sm mb-2">Store</h2>
                 <h1 class="text-4xl md:text-5xl font-black text-white">FitAcademy <span class="text-gray-600">Shop</span></h1>
@@ -24,12 +24,12 @@
                 @endif
             </div>
 
-            <!-- Products Grid -->
+
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
                 @forelse($products as $product)
                 <div class="bg-gray-800 rounded-2xl overflow-hidden border border-gray-700 hover:border-green-500 transition duration-300 flex flex-col group relative">
 
-                    <!-- Stock Badge (Low Stock Warning) -->
+
                     @if($product->stock < 5 && $product->stock > 0)
                         <div class="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full z-10 animate-pulse">
                             Only {{ $product->stock }} left!
@@ -40,13 +40,13 @@
                         </div>
                     @endif
 
-                    <!-- Image -->
+
                     <div class="h-64 overflow-hidden relative">
                         <img src="{{ $product->image_path }}" alt="{{ $product->name }}" class="w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-110 transition duration-500 {{ $product->stock == 0 ? 'grayscale' : '' }}">
                         <div class="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-60"></div>
                     </div>
 
-                    <!-- Content -->
+
                     <div class="p-6 flex flex-col flex-grow">
                         <div class="mb-4">
                             <span class="text-xs font-bold text-green-400 uppercase tracking-wider mb-1 block">{{ $product->category }}</span>
@@ -58,7 +58,7 @@
                             <div>
                                 <p class="text-xs text-gray-500 uppercase">Price</p>
                                 <p class="text-xl font-bold text-white font-mono">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
-                                <!-- Added Stock Display -->
+
                                 <p class="text-xs mt-1 font-medium {{ $product->stock > 0 ? 'text-blue-400' : 'text-red-500' }}">
                                     Stock: {{ $product->stock }} available
                                 </p>
@@ -82,7 +82,6 @@
                 @endforelse
             </div>
 
-            <!-- Order History -->
             @if($transactions->count() > 0)
             <div class="max-w-4xl mx-auto">
                 <h3 class="text-2xl font-bold text-white mb-6 border-l-4 border-green-500 pl-4">Order History</h3>

@@ -11,8 +11,8 @@ class Program extends Model
     protected $fillable = [
         'name',
         'description',
-        'difficulty', // Enum: Beginner, Intermediate, Advanced
+        'difficulty',
         'days_per_week',
-        'routine_details', // LongText
+        'routine_details',
     ];
 }
