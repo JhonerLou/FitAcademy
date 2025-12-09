@@ -8,74 +8,70 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            
+     
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
 
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6 border-l-4 border-blue-500">
-                    <div class="text-gray-500 dark:text-gray-400 text-sm font-medium uppercase">Total Orders</div>
+                    <div class="text-gray-500 dark:text-gray-400 text-sm font-medium uppercase">{{ __('Total Orders') }}</div>
                     <div class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">{{ $stats['orders'] }}</div>
                 </div>
 
 
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6 border-l-4 border-green-500">
-                    <div class="text-gray-500 dark:text-gray-400 text-sm font-medium uppercase">Total Users</div>
+                    <div class="text-gray-500 dark:text-gray-400 text-sm font-medium uppercase">{{ __('Total Users') }}</div>
                     <div class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">{{ $stats['users'] }}</div>
                 </div>
 
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6 border-l-4 border-purple-500">
-                    <div class="text-gray-500 dark:text-gray-400 text-sm font-medium uppercase">Products</div>
+                    <div class="text-gray-500 dark:text-gray-400 text-sm font-medium uppercase">{{ __('Products') }}</div>
                     <div class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">{{ $stats['products'] }}</div>
                 </div>
             </div>
 
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-
                 <div class="lg:col-span-2 space-y-8">
-
                     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Manage Content</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ __('Manage Content') }}</h3>
                         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-                            <!-- Shop Links -->
+
                             <a href="{{ route('admin.transactions') }}" class="flex flex-col items-center justify-center p-4 bg-blue-50 dark:bg-blue-900/30 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-800 transition group border border-blue-200 dark:border-blue-700">
                                 <span class="text-2xl mb-2 group-hover:scale-110 transition">🛒</span>
-                                <span class="text-xs font-bold text-blue-800 dark:text-blue-300">Orders</span>
+                                <span class="text-xs font-bold text-blue-800 dark:text-blue-300">{{ __('Orders') }}</span>
                             </a>
                             <a href="{{ route('admin.products') }}" class="flex flex-col items-center justify-center p-4 bg-purple-50 dark:bg-purple-900/30 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-800 transition group border border-purple-200 dark:border-purple-700">
                                 <span class="text-2xl mb-2 group-hover:scale-110 transition">📦</span>
-                                <span class="text-xs font-bold text-purple-800 dark:text-purple-300">Products</span>
+                                <span class="text-xs font-bold text-purple-800 dark:text-purple-300">{{ __('Products') }}</span>
                             </a>
 
                             <a href="{{ route('admin.exercises') }}" class="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition group">
                                 <span class="text-2xl mb-2">💪</span>
-                                <span class="text-xs font-medium text-gray-700 dark:text-gray-300">Exercises</span>
+                                <span class="text-xs font-medium text-gray-700 dark:text-gray-300">{{ __('Exercises') }}</span>
                             </a>
                             <a href="{{ route('admin.programs') }}" class="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition group">
                                 <span class="text-2xl mb-2">📅</span>
-                                <span class="text-xs font-medium text-gray-700 dark:text-gray-300">Programs</span>
+                                <span class="text-xs font-medium text-gray-700 dark:text-gray-300">{{ __('Programs') }}</span>
                             </a>
                             <a href="{{ route('admin.articles') }}" class="flex flex-col items-center justify-center p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition group">
                                 <span class="text-2xl mb-2">🔬</span>
-                                <span class="text-xs font-medium text-gray-700 dark:text-gray-300">Science</span>
+                                <span class="text-xs font-medium text-gray-700 dark:text-gray-300">{{ __('Science') }}</span>
                             </a>
                         </div>
                     </div>
 
-
                     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6">
                         <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Recent Orders</h3>
-                            <a href="{{ route('admin.transactions') }}" class="text-sm text-green-400 hover:text-white">View All</a>
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ __('Recent Orders') }}</h3>
+                            <a href="{{ route('admin.transactions') }}" class="text-sm text-green-400 hover:text-white">{{ __('View All') }}</a>
                         </div>
                         <div class="overflow-x-auto">
                             <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                                 <thead>
                                     <tr>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">ID</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">User</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Total</th>
-                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">Status</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{{ __('ID') }}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{{ __('User') }}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{{ __('Total') }}</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">{{ __('Status') }}</th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
@@ -101,7 +97,7 @@
                 </div>
 
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6 h-fit">
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">New Members</h3>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">{{ __('New Members') }}</h3>
                     <ul class="divide-y divide-gray-200 dark:divide-gray-700">
                         @foreach($recentUsers as $user)
                         <li class="py-4 flex items-center">
