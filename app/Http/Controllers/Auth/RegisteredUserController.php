@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OtpMail;
 class RegisteredUserController extends Controller
 {
     /**
@@ -41,10 +42,9 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
-
+       $user->generateOtp();
+        Mail::to($user->email)->send(new OtpMail($user->otp));
         Auth::login($user);
-
-        return redirect(route('dashboard', absolute: false));
+        return redirect()->route('otp.verify');
     }
 }

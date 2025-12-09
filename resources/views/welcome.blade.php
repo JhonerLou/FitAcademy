@@ -34,7 +34,7 @@
                 @if (Route::has('login'))
                     <div class="space-x-4">
                         @auth
-                            <a href="{{ url('/dashboard') }}" class="text-sm text-gray-300 hover:text-white">{{ __('Dashboard') }}</a>
+                           
                         @else
                             <a href="{{ route('login') }}" class="text-sm text-gray-300 hover:text-white">{{ __('Log in') }}</a>
                             @if (Route::has('register'))
@@ -83,7 +83,7 @@
             </div>
         </div>
 
- 
+
         @if(isset($products) && $products->count() > 0)
         <div class="bg-gray-900 py-24 relative overflow-hidden border-t border-gray-800">
             <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-green-500/50 to-transparent"></div>

@@ -5,7 +5,17 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\PaymentController;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Product;
+use App\Http\Controllers\Auth\OtpController;
+
+
 Route::get('lang/{locale}', [LocalizationController::class, 'switch'])->name('lang.switch');
+
+Route::get('/', function () {
+    $products = Product::where('stock', '>', 0)->inRandomOrder()->take(4)->get();
+    return view('welcome', compact('products'));
+})->name('home');
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
@@ -20,6 +30,11 @@ Route::get('/dashboard', function () {
 
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::middleware('auth')->group(function () {
+    Route::get('verify-otp', [OtpController::class, 'create'])->name('otp.verify');
+    Route::post('verify-otp', [OtpController::class, 'store'])->name('otp.store');
+    Route::get('resend-otp', [OtpController::class, 'resend'])->name('otp.resend');
+});
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
@@ -81,7 +96,6 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::put('/products/{product}', [AdminController::class, 'updateProduct'])->name('products.update');
     Route::delete('/products/{product}', [AdminController::class, 'destroyProduct'])->name('products.destroy');
 
-    // Transaction Management (Orders)
     Route::get('/transactions', [AdminController::class, 'transactions'])->name('transactions');
     Route::get('/transactions/{transaction}', [AdminController::class, 'showTransaction'])->name('transactions.show');
     Route::patch('/transactions/{transaction}', [AdminController::class, 'updateTransactionStatus'])->name('transactions.update');
