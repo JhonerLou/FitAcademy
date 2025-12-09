@@ -30,11 +30,9 @@ Route::get('/dashboard', function () {
 
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    Route::get('verify-otp', [OtpController::class, 'create'])->name('otp.verify');
-    Route::post('verify-otp', [OtpController::class, 'store'])->name('otp.store');
-    Route::get('resend-otp', [OtpController::class, 'resend'])->name('otp.resend');
-});
+Route::get('verify-otp', [OtpController::class, 'create'])->name('otp.verify');
+Route::post('verify-otp', [OtpController::class, 'store'])->name('otp.store');
+Route::get('resend-otp', [OtpController::class, 'resend'])->name('otp.resend');
 
 Route::middleware(['auth', 'verified'])->group(function () {
 

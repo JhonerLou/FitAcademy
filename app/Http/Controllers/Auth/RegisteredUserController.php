@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
 use App\Mail\OtpMail;
 class RegisteredUserController extends Controller
 {
@@ -36,15 +37,18 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = User::create([
+        $otp = rand(100000, 999999);
+
+        $registrationData = [
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-        ]);
+            'role' => 'member',
+            'otp' => $otp
+        ];
 
-       $user->generateOtp();
-        Mail::to($user->email)->send(new OtpMail($user->otp));
-        Auth::login($user);
-        return redirect()->route('otp.verify');
+        Cache::put('registration_' . $request->email, $registrationData, 600);
+        Mail::to($request->email)->send(new OtpMail($otp));
+        return redirect()->route('otp.verify')->with('email', $request->email);
     }
 }

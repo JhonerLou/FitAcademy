@@ -13,16 +13,16 @@
                     <span class="text-green-400 font-bold tracking-widest uppercase text-xs mb-3 block">
                         {{ str_replace('_', ' ', $article->category) }}
                     </span>
-                    <h1 class="text-3xl md:text-5xl font-black text-white mb-6 leading-tight">
+                    <h1 class="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
                         {{ $article->title }}
                     </h1>
-                    <p class="text-xl text-white-300 font-light leading-relaxed">
+                    <p class="text-xl text-gray-300 font-light leading-relaxed">
                         {{ $article->summary }}
                     </p>
                 </header>
 
 
-                <div class="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-p:text-white-300 prose-strong:text-green-400 prose-li:text-gray-300">
+                <div class="text-gray-300 prose prose-invert prose-lg max-w-none prose-headings:text-white prose-p:text-gray-300 prose-strong:text-green-400 prose-li:text-gray-300">
                     {!! $article->content !!}
                 </div>
             </article>

@@ -106,7 +106,7 @@
                     </div>
 
                     <div class="bg-gray-800 rounded-2xl p-6 border border-gray-700">
-                        <h3 class="text-sm font-bold text-white mb-4 uppercase tracking-widest text-gray-400">Recent History</h3>
+                        <h3 class="text-sm font-bold mb-4 uppercase tracking-widest text-gray-400">Recent History</h3>
                         <div class="space-y-3">
                             @foreach($history->take(3) as $record)
                             <div class="flex justify-between items-center text-sm border-b border-gray-700 pb-2 last:border-0">

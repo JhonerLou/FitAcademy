@@ -1,9 +1,7 @@
 <x-guest-layout>
     <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        {{ __('Thanks for signing up! Before getting started, please enter the 6-digit code we just emailed to you.') }}
+        {{ __('Please enter the 6-digit code sent to') }} <span class="font-bold">{{ $email ?? session('email') }}</span>.
     </div>
-
-
     @if (session('success'))
         <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
             {{ session('success') }}
@@ -12,6 +10,7 @@
 
     <form method="POST" action="{{ route('otp.store') }}">
         @csrf
+        <input type="hidden" name="email" value="{{ $email ?? session('email') }}">
 
         <div>
             <x-input-label for="otp" :value="__('Verification Code')" />
@@ -21,20 +20,17 @@
         </div>
 
         <div class="mt-4 flex items-center justify-between">
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
-                    {{ __('Log Out') }}
-                </button>
-            </form>
+            <a href="{{ route('register') }}" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">
+                {{ __('Start Over') }}
+            </a>
 
             <div class="flex items-center">
-                <a href="{{ route('otp.resend') }}" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800 mr-4">
+                <a href="{{ route('otp.resend', ['email' => $email ?? session('email')]) }}" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 mr-4">
                     {{ __('Resend Code') }}
                 </a>
 
                 <x-primary-button class="bg-green-500 hover:bg-green-600">
-                    {{ __('Verify') }}
+                    {{ __('Verify & Register') }}
                 </x-primary-button>
             </div>
         </div>
