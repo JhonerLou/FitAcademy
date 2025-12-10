@@ -51,7 +51,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/tools/strength', [MemberController::class, 'storeStrength'])->name('member.tools.strength');
     Route::get('/shop', [MemberController::class, 'shop'])->name('member.shop');
     Route::post('/shop/buy/{product}', [MemberController::class, 'purchase'])->name('member.shop.purchase');
-
+     Route::get('/forum', [App\Http\Controllers\ForumController::class, 'index'])->name('member.forum.index');
+    Route::get('/forum/create', [App\Http\Controllers\ForumController::class, 'create'])->name('member.forum.create');
+    Route::post('/forum', [App\Http\Controllers\ForumController::class, 'store'])->name('member.forum.store');
+    Route::get('/forum/{thread}', [App\Http\Controllers\ForumController::class, 'show'])->name('member.forum.show');
+    Route::post('/forum/{thread}/reply', [App\Http\Controllers\ForumController::class, 'reply'])->name('member.forum.reply');
     Route::get('/payment/{transaction}', [PaymentController::class, 'show'])->name('payment.show');
     Route::post('/payment/{transaction}', [PaymentController::class, 'process'])->name('payment.process');
     Route::get('/payment/success/{transaction}', [PaymentController::class, 'success'])->name('payment.success');

@@ -64,6 +64,15 @@ class User extends Authenticatable
     {
         return $this->hasMany(UserStrengthRecord::class);
     }
+    public function threads()
+    {
+        return $this->hasMany(ForumThread::class);
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(ForumPost::class);
+    }
     public function isAdmin(): bool
     {
         return $this->role === 'admin';

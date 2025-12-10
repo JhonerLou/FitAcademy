@@ -21,6 +21,7 @@
                 <a href="{{ route('member.exercises') }}" class="hover:text-green-400 transition">{{ __('Guide') }}</a>
                 <a href="{{ route('member.tools') }}" class="hover:text-green-400 transition">{{ __('Tools') }}</a>
                 <a href="{{ route('member.shop') }}" class="hover:text-green-400 transition">{{ __('Shop') }}</a>
+                <a href="{{ route('member.forum.index') }}" class="hover:text-green-400 transition">{{ __('Forum') }}</a>
             </div>
 
             <div class="flex items-center space-x-4">
@@ -34,7 +35,7 @@
                 @if (Route::has('login'))
                     <div class="space-x-4">
                         @auth
-                           
+
                         @else
                             <a href="{{ route('login') }}" class="text-sm text-gray-300 hover:text-white">{{ __('Log in') }}</a>
                             @if (Route::has('register'))
@@ -101,7 +102,7 @@
                             <img src="{{ $product->image_path }}" alt="{{ $product->name }}" class="w-full h-full object-cover transform group-hover:scale-110 transition duration-500">
                             <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition"></div>
 
-                            <!-- Price Tag -->
+
                             <div class="absolute bottom-4 right-4 bg-green-500 text-black font-bold px-3 py-1 rounded-full text-sm shadow-lg">
                                 Rp {{ number_format($product->price, 0, ',', '.') }}
                             </div>
