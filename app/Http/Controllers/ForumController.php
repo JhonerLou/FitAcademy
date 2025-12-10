@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ForumController extends Controller
 {
-    /**
-     * Display forum index (list of threads).
-     */
     public function index(Request $request): View
     {
 
