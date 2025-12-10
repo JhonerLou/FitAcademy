@@ -10,7 +10,7 @@ class LocalizationController extends Controller
 {
      public function switch($locale): RedirectResponse
     {
-        // Validate the locale to ensure it's supported
+
         if (in_array($locale, ['en', 'id'])) {
             Session::put('locale', $locale);
         }

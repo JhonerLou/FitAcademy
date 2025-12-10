@@ -60,7 +60,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Transaction::class);
     }
-
+    public function strengthRecords(): HasMany
+    {
+        return $this->hasMany(UserStrengthRecord::class);
+    }
     public function isAdmin(): bool
     {
         return $this->role === 'admin';

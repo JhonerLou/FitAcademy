@@ -46,7 +46,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/tools', [MemberController::class, 'tools'])->name('member.tools');
     Route::post('/tools/calculate', [MemberController::class, 'storeTools'])->name('member.tools.store');
-
+    Route::get('/tools', [MemberController::class, 'tools'])->name('member.tools');
+    Route::post('/tools/calculate', [MemberController::class, 'storeTools'])->name('member.tools.store');
+    Route::post('/tools/strength', [MemberController::class, 'storeStrength'])->name('member.tools.strength');
     Route::get('/shop', [MemberController::class, 'shop'])->name('member.shop');
     Route::post('/shop/buy/{product}', [MemberController::class, 'purchase'])->name('member.shop.purchase');
 

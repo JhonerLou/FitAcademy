@@ -188,7 +188,7 @@ class AdminController extends Controller
             'content' => 'required|string',
         ]);
 
-        // 2. Manually handle the checkbox
+      
         $validated['is_published'] = $request->has('is_published');
 
         ScienceArticle::create($validated);
@@ -203,7 +203,7 @@ class AdminController extends Controller
     public function updateArticle(Request $request, ScienceArticle $article): RedirectResponse
     {
         $validated = $request->validate([
-            // Ensure title is unique but ignore the current article's ID
+
             'title' => 'required|string|max:255|unique:science_articles,title,' . $article->id,
             'category' => 'required|string|max:255',
             'summary' => 'nullable|string|max:500',
