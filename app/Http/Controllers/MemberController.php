@@ -14,7 +14,7 @@ use App\Models\UserMetric;
 use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\TransactionItem;
-use App\Models\UserStrengthRecord; // Ensure this model exists
+use App\Models\UserStrengthRecord; 
 
 class MemberController extends Controller
 {

@@ -19,10 +19,9 @@ class PaymentController extends Controller
 
     public function __construct()
     {
-
-        $this->clientId = trim('BRN-0217-1764762663545');
-        $this->secretKey = trim('SK-DVabJbyKBzIQtPGM4Hwn');
-        $this->baseUrl = 'https://api-sandbox.doku.com';
+        $this->clientId = trim(env('DOKU_CLIENT_ID'));
+        $this->secretKey = trim(env('DOKU_SECRET_KEY'));
+        $this->baseUrl = trim(env('DOKU_BASE_URL', 'https://api-sandbox.doku.com'));
     }
 
 
@@ -106,7 +105,7 @@ class PaymentController extends Controller
         if ($invoiceNumber && $transactionStatus === 'SUCCESS') {
 
             $parts = explode('-', $invoiceNumber);
-            $transactionId = end($parts); // Get the last part
+            $transactionId = end($parts);
 
             $transaction = Transaction::find($transactionId);
 
@@ -132,10 +131,24 @@ class PaymentController extends Controller
 
       public function success(Transaction $transaction): View
     {
+        if ($transaction->status === 'pending') {
+            $transaction->update([
+                'status' => 'completed',
+                'updated_at' => now(),
+            ]);
+
+            
+            foreach ($transaction->items as $item) {
+                $product = Product::find($item->product_id);
+                if ($product && $product->stock >= $item->quantity) {
+                    $product->decrement('stock', $item->quantity);
+                }
+            }
+        }
         return view('payment.success', compact('transaction'));
     }
 
- 
+
     private function generateSignature($payload, $timestamp, $requestId, $targetPath)
     {
         $digest = base64_encode(hash('sha256', json_encode($payload), true));
