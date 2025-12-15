@@ -51,7 +51,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/tools/strength', [MemberController::class, 'storeStrength'])->name('member.tools.strength');
     Route::get('/shop', [MemberController::class, 'shop'])->name('member.shop');
     Route::post('/shop/buy/{product}', [MemberController::class, 'purchase'])->name('member.shop.purchase');
-     Route::get('/forum', [App\Http\Controllers\ForumController::class, 'index'])->name('member.forum.index');
+    Route::get('/forum', [App\Http\Controllers\ForumController::class, 'index'])->name('member.forum.index');
     Route::get('/forum/create', [App\Http\Controllers\ForumController::class, 'create'])->name('member.forum.create');
     Route::post('/forum', [App\Http\Controllers\ForumController::class, 'store'])->name('member.forum.store');
     Route::get('/forum/{thread}', [App\Http\Controllers\ForumController::class, 'show'])->name('member.forum.show');
@@ -103,6 +103,10 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::get('/transactions', [AdminController::class, 'transactions'])->name('transactions');
     Route::get('/transactions/{transaction}', [AdminController::class, 'showTransaction'])->name('transactions.show');
     Route::patch('/transactions/{transaction}', [AdminController::class, 'updateTransactionStatus'])->name('transactions.update');
+    Route::get('/users', [AdminController::class, 'users'])->name('users');
+    Route::get('/users/{user}/edit', [AdminController::class, 'editUser'])->name('users.edit');
+    Route::put('/users/{user}', [AdminController::class, 'updateUser'])->name('users.update');
+    Route::delete('/users/{user}', [AdminController::class, 'destroyUser'])->name('users.destroy');
 });
 
 Route::middleware('auth')->group(function () {

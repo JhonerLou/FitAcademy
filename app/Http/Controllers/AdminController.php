@@ -35,7 +35,41 @@ class AdminController extends Controller
 
         return view('admin.dashboard', compact('stats', 'recentOrders', 'recentUsers'));
     }
-       public function transactions(): View
+    public function users(): View
+    {
+        $users = User::latest()->paginate(10);
+        return view('admin.users.index', compact('users'));
+    }
+
+    public function editUser(User $user): View
+    {
+        return view('admin.users.edit', compact('user'));
+    }
+
+    public function updateUser(Request $request, User $user): RedirectResponse
+    {
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'role' => ['required', 'in:admin,member'],
+        ]);
+
+        $user->update($validated);
+
+        return redirect()->route('admin.users')->with('success', 'User updated successfully!');
+    }
+
+    public function destroyUser(User $user): RedirectResponse
+    {
+        if ($user->id === auth()->id()) {
+            return redirect()->back()->with('error', 'You cannot delete your own account.');
+        }
+
+        $user->delete();
+        return redirect()->route('admin.users')->with('success', 'User deleted successfully!');
+    }
+
+    public function transactions(): View
     {
 
         $transactions = Transaction::with(['user', 'items.product'])->latest()->paginate(10);
@@ -188,7 +222,7 @@ class AdminController extends Controller
             'content' => 'required|string',
         ]);
 
-      
+
         $validated['is_published'] = $request->has('is_published');
 
         ScienceArticle::create($validated);

@@ -13,27 +13,17 @@ class OtpMail extends Mailable
 {
     use Queueable, SerializesModels;
     public $otp;
-    /**
-     * Create a new message instance.
-     */
     public function __construct($otp)
     {
         $this->otp = $otp;
     }
 
-    /**
-     * Get the message envelope.
-     */
     public function envelope(): Envelope
     {
         return new Envelope(
             subject: 'Your FitAcademy Verification Code',
         );
     }
-
-    /**
-     * Get the message content definition.
-     */
     public function content(): Content
     {
         return new Content(
