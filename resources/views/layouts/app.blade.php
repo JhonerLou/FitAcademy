@@ -32,5 +32,6 @@
                 {{ $slot }}
             </main>
         </div>
+        @include('components.chatbot-widget')
     </body>
 </html>
