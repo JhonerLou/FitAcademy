@@ -1,5 +1,6 @@
 <div x-data="chatBot()" class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
 
+    <!-- Chat Window -->
     <div x-show="isOpen"
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0 translate-y-4 scale-95"
@@ -7,7 +8,7 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100 translate-y-0 scale-100"
          x-transition:leave-end="opacity-0 translate-y-4 scale-95"
-         class="bg-gray-900 border border-gray-700 w-80 sm:w-96 md:w-[28rem] h-[32rem] rounded-2xl shadow-2xl flex flex-col overflow-hidden mb-6 mr-2"
+         class="bg-gray-900 border border-gray-700 w-80 sm:w-96 md:w-[28rem] h-[35rem] rounded-2xl shadow-2xl flex flex-col overflow-hidden mb-6 mr-2"
          style="display: none;">
 
 
@@ -19,27 +20,40 @@
                     <p class="text-xs text-gray-400">Ask me about training & nutrition</p>
                 </div>
             </div>
-            <button @click="toggleChat" class="text-gray-400 hover:text-white focus:outline-none transition">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
+
+            <div class="flex items-center space-x-1">
+
+                <button @click="getDailyTip" class="text-yellow-400 hover:text-yellow-300 p-2 rounded-lg hover:bg-gray-700/50 focus:outline-none transition group" title="Get Daily Tip">
+                    <svg class="w-5 h-5 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                </button>
+
+
+                <button @click="toggleChat" class="text-gray-400 hover:text-white p-2 rounded-lg hover:bg-gray-700/50 focus:outline-none transition">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </button>
+            </div>
         </div>
 
-        <div class="flex-1 p-5 overflow-y-auto space-y-6 bg-gray-900 scroll-smooth" id="chat-messages">
 
+        <div class="flex-1 p-5 overflow-y-auto space-y-4 bg-gray-900 scroll-smooth" id="chat-messages">
+           
             <div class="flex items-start">
                 <div class="bg-gray-800 text-gray-200 text-sm p-4 rounded-2xl rounded-tl-none shadow-md max-w-[85%] leading-relaxed border border-gray-700">
-                    Hello! I'm FitBot. Ask me anything about your training routine, diet plan, or how to use the app! 💪
+                    Hello! I'm FitBot. I can help with your workout plan, nutrition, or give you a <span class="text-yellow-400 font-bold cursor-pointer hover:underline" @click="getDailyTip">Daily Tip</span>! 💡
                 </div>
             </div>
+
 
             <template x-for="(msg, index) in messages" :key="index">
                 <div class="flex" :class="msg.role === 'user' ? 'justify-end' : 'justify-start'">
                     <div class="text-sm p-4 rounded-2xl shadow-md max-w-[85%] leading-relaxed"
                          :class="msg.role === 'user' ? 'bg-green-600 text-white rounded-tr-none' : 'bg-gray-800 text-gray-200 rounded-tl-none border border-gray-700'">
-                        <span x-text="msg.content"></span>
+                        <!-- Render HTML for formatting (bolding, etc) -->
+                        <span x-html="msg.content"></span>
                     </div>
                 </div>
             </template>
+
 
             <div x-show="isLoading" class="flex items-start">
                 <div class="bg-gray-800 text-gray-400 text-xs p-4 rounded-2xl rounded-tl-none shadow-md flex items-center space-x-1 border border-gray-700">
@@ -49,6 +63,7 @@
                 </div>
             </div>
         </div>
+
 
         <div class="p-4 bg-gray-800 border-t border-gray-700">
             <form @submit.prevent="sendMessage" class="flex items-center space-x-3">
@@ -63,6 +78,7 @@
             </form>
         </div>
     </div>
+
 
     <button @click="toggleChat"
             class="bg-green-500 hover:bg-green-400 text-black w-16 h-16 rounded-full shadow-2xl flex items-center justify-center transition transform hover:scale-110 focus:outline-none z-50 border-4 border-gray-900">
@@ -87,6 +103,13 @@ function chatBot() {
             }
         },
 
+        async getDailyTip() {
+            if (this.isLoading) return;
+
+            this.newMessage = "Give me a concise, science-based bodybuilding tip for today. Keep it under 50 words.";
+            await this.sendMessage();
+        },
+
         async sendMessage() {
             const userText = this.newMessage.trim();
             if (!userText) return;
@@ -98,6 +121,7 @@ function chatBot() {
             this.$nextTick(() => this.scrollToBottom());
 
             try {
+
                 const response = await fetch('{{ route('chatbot.send') }}', {
                     method: 'POST',
                     headers: {
@@ -113,7 +137,9 @@ function chatBot() {
                 const data = await response.json();
 
                 if (data.status === 'success') {
-                    this.messages.push({ role: 'assistant', content: data.reply });
+                    // Simple formatting for line breaks if needed
+                    let reply = data.reply.replace(/\n/g, '<br>');
+                    this.messages.push({ role: 'assistant', content: reply });
                 } else {
                     this.messages.push({ role: 'assistant', content: 'Error: Could not get response.' });
                 }
