@@ -14,6 +14,7 @@ use Illuminate\Validation\Rule;
 use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\TransactionItem;
+use Illuminate\Support\Facades\DB;
 class AdminController extends Controller
 {
 
@@ -28,12 +29,42 @@ class AdminController extends Controller
             'products' => Product::count(),
             'orders' => Transaction::count(),
         ];
-
-        $recentUsers = User::latest()->take(5)->get();
         $recentOrders = Transaction::with('user')->latest()->take(5)->get();
+        $recentUsers = User::latest()->take(5)->get();
 
 
-        return view('admin.dashboard', compact('stats', 'recentOrders', 'recentUsers'));
+        $userGrowth = User::select(
+            DB::raw('COUNT(*) as count'),
+            DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month")
+        )
+        ->groupBy('month')
+        ->orderBy('month', 'asc')
+        ->limit(6)
+        ->get();
+
+        $orderVolume = Transaction::select(
+            DB::raw('COUNT(*) as count'),
+            DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month")
+        )
+        ->where('status', 'completed')
+        ->groupBy('month')
+        ->orderBy('month', 'asc')
+        ->limit(6)
+        ->get();
+
+        $chartLabels = $userGrowth->pluck('month')->map(function($date) {
+            return \Carbon\Carbon::createFromFormat('Y-m', $date)->format('M Y');
+        });
+
+        $chartData = [
+            'labels' => $chartLabels,
+            'users' => $userGrowth->pluck('count'),
+            'orders' => $orderVolume->pluck('count'),
+        ];
+
+
+
+        return view('admin.dashboard', compact('stats', 'recentOrders', 'recentUsers','chartData'));
     }
     public function users(): View
     {
