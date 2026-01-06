@@ -21,9 +21,8 @@ class PaymentController extends Controller
     {
         $this->clientId = trim(env('DOKU_CLIENT_ID'));
         $this->secretKey = trim(env('DOKU_SECRET_KEY'));
-        $this->baseUrl = trim(env('DOKU_BASE_URL', 'https://api-sandbox.doku.com'));
+        $this->baseUrl = trim(env('DOKU_BASE_URL'));
     }
-
 
     public function show(Transaction $transaction)
     {
@@ -31,14 +30,21 @@ class PaymentController extends Controller
             return redirect()->route('member.shop');
         }
 
+        if (empty($this->clientId)) {
+            return redirect()->back()->with('error', 'Configuration Error: Doku Client ID is missing.');
+        }
+
         $requestId = Str::uuid()->toString();
         $targetPath = '/checkout/v1/payment';
         $timestamp = gmdate('Y-m-d\TH:i:s\Z');
 
+        $invoiceNumber = 'INV-' . $transaction->id . '-' . time();
+        $notifyUrl = 'https://jhonerlou.com/payment/notify';
+
         $payload = [
             'order' => [
                 'amount' => (int) $transaction->total_amount,
-                'invoice_number' => 'INV-' . time() . '-' . $transaction->id,
+                'invoice_number' => $invoiceNumber,
                 'currency' => 'IDR',
                 'callback_url' => route('payment.success', $transaction),
                 'failed_url' => route('member.shop'),
@@ -49,53 +55,44 @@ class PaymentController extends Controller
             'customer' => [
                 'name' => auth()->user()->name,
                 'email' => auth()->user()->email,
-            ]
+            ],
+            'notification_url' => $notifyUrl,
         ];
-
 
         $signature = $this->generateSignature($payload, $timestamp, $requestId, $targetPath);
 
+        try {
+            $response = Http::withHeaders([
+                'Client-Id' => $this->clientId,
+                'Request-Id' => $requestId,
+                'Request-Timestamp' => $timestamp,
+                'Signature' => $signature,
+            ])->post($this->baseUrl . $targetPath, $payload);
 
-        Log::info('Doku Request', [
-            'url' => $this->baseUrl . $targetPath,
-            'client_id' => $this->clientId,
-            'signature' => $signature,
-            'payload' => $payload
-        ]);
+            if ($response->successful()) {
+                $paymentUrl = $response->json()['response']['payment']['url'];
+                $transaction->note = $invoiceNumber;
+                $transaction->save();
+                return redirect()->away($paymentUrl);
+            }
 
-        $response = Http::withHeaders([
-            'Client-Id' => $this->clientId,
-            'Request-Id' => $requestId,
-            'Request-Timestamp' => $timestamp,
-            'Signature' => $signature,
-        ])->post($this->baseUrl . $targetPath, $payload);
+            Log::error('Doku Payment Error', ['body' => $response->body()]);
+            return redirect()->back()->with('error', 'Payment Gateway Error: ' . $response->body());
 
-
-        if ($response->successful()) {
-            $paymentUrl = $response->json()['response']['payment']['url'];
-
-
-            $transaction->status = 'pending';
-            $transaction->save();
-
-            return redirect()->away($paymentUrl);
+        } catch (\Exception $e) {
+            Log::error('Doku Connection Exception', ['message' => $e->getMessage()]);
+            return redirect()->back()->with('error', 'Connection Error');
         }
-
-        $errorBody = $response->json();
-
-
-        return redirect()->back()->with('error', 'Payment Gateway Error: ' . ($errorBody['error']['message'] ?? 'Unknown Error'));
     }
-
 
     public function process(Request $request)
     {
+        Log::info('Doku Webhook Hit', $request->all());
 
-        $clientId = $request->header('Client-Id');
 
-
-        if ($clientId !== $this->clientId) {
-            return response()->json(['message' => 'Invalid Client ID'], 401);
+        $clientIdHeader = $request->header('Client-Id');
+        if ($clientIdHeader !== $this->clientId) {
+            Log::warning("Webhook Client ID mismatch: $clientIdHeader vs {$this->clientId}");
         }
 
         $notificationBody = $request->json()->all();
@@ -103,51 +100,86 @@ class PaymentController extends Controller
         $transactionStatus = $notificationBody['transaction']['status'] ?? null;
 
         if ($invoiceNumber && $transactionStatus === 'SUCCESS') {
-
-            $parts = explode('-', $invoiceNumber);
-            $transactionId = end($parts);
-
-            $transaction = Transaction::find($transactionId);
-
-            if ($transaction && $transaction->status !== 'completed') {
-
-                $transaction->update([
-                    'status' => 'completed',
-                    'updated_at' => now(),
-                ]);
-
-
-                foreach ($transaction->items as $item) {
-                    $product = Product::find($item->product_id);
-                    if ($product && $product->stock >= $item->quantity) {
-                        $product->decrement('stock', $item->quantity);
-                    }
-                }
-            }
+            $this->completeTransactionFromInvoice($invoiceNumber);
         }
 
         return response()->json(['message' => 'OK']);
     }
 
-      public function success(Transaction $transaction): View
+    public function success(Transaction $transaction): View
     {
-        if ($transaction->status === 'pending') {
-            $transaction->update([
-                'status' => 'completed',
-                'updated_at' => now(),
-            ]);
 
-            
-            foreach ($transaction->items as $item) {
-                $product = Product::find($item->product_id);
-                if ($product && $product->stock >= $item->quantity) {
-                    $product->decrement('stock', $item->quantity);
-                }
-            }
+        if ($transaction->status === 'pending' && $transaction->note) {
+            $this->checkStatusDirectly($transaction);
         }
+
         return view('payment.success', compact('transaction'));
     }
 
+
+    private function checkStatusDirectly(Transaction $transaction)
+    {
+        $requestId = Str::uuid()->toString();
+
+        $targetPath = '/orders/v1/status/' . $transaction->note;
+        $timestamp = gmdate('Y-m-d\TH:i:s\Z');
+
+
+        $rawSignature = "Client-Id:" . $this->clientId . "\n" .
+                        "Request-Id:" . $requestId . "\n" .
+                        "Request-Timestamp:" . $timestamp . "\n" .
+                        "Request-Target:" . $targetPath; 
+
+        $signature = "HMACSHA256=" . base64_encode(hash_hmac('sha256', $rawSignature, $this->secretKey, true));
+
+        try {
+            $response = Http::withHeaders([
+                'Client-Id' => $this->clientId,
+                'Request-Id' => $requestId,
+                'Request-Timestamp' => $timestamp,
+                'Signature' => $signature,
+            ])->get($this->baseUrl . $targetPath);
+
+            if ($response->successful()) {
+                $status = $response->json()['transaction']['status'] ?? null;
+                if ($status === 'SUCCESS') {
+                    $this->completeOrder($transaction);
+                }
+            }
+        } catch (\Exception $e) {
+            Log::error("Manual Status Check Failed: " . $e->getMessage());
+        }
+    }
+
+    private function completeTransactionFromInvoice($invoiceNumber)
+    {
+        // Extract ID from "INV-{ID}-{TIME}"
+        $parts = explode('-', $invoiceNumber);
+        $transactionId = $parts[1] ?? null;
+
+        if ($transactionId) {
+            $transaction = Transaction::find($transactionId);
+            if ($transaction && $transaction->status !== 'completed') {
+                $this->completeOrder($transaction);
+                Log::info("Transaction #{$transactionId} completed via logic.");
+            }
+        }
+    }
+
+    private function completeOrder(Transaction $transaction)
+    {
+        $transaction->update([
+            'status' => 'completed',
+            'updated_at' => now(),
+        ]);
+
+        foreach ($transaction->items as $item) {
+            $product = Product::find($item->product_id);
+            if ($product && $product->stock >= $item->quantity) {
+                $product->decrement('stock', $item->quantity);
+            }
+        }
+    }
 
     private function generateSignature($payload, $timestamp, $requestId, $targetPath)
     {
